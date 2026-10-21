@@ -1,10 +1,19 @@
-# podcast-trancript-public
+# podcast-transcript-public
 
 Turn podcast audio, video, episode links, or rough transcripts into clean, readable transcripts.
 
 The skill fixes punctuation and paragraph breaks, checks names and speaker labels, and keeps the substance of the conversation intact. It produces Markdown for editing and HTML for reading or sharing.
 
-[View the installable skill](./podcast-trancript-public/SKILL.md) · [English introduction](./docs/index.html) · [中文介绍](./docs/zh.html) · [中文说明](./README.zh.md)
+[View the installable skill](./podcast-transcript-public/SKILL.md) · [English introduction](./docs/index.html) · [中文介绍](./docs/zh.html) · [中文说明](./README.zh.md)
+
+## Already installed the old name?
+
+The skill folder used to be spelled `podcast-trancript-public` (missing the “s”). It is now `podcast-transcript-public`. An assistant keeps the old folder until you remove it, and that old copy will not pick up this rename.
+
+1. Delete the old folder, for example `~/.codex/skills/podcast-trancript-public`, `~/.claude/skills/podcast-trancript-public`, or `~/.cursor/skills/podcast-trancript-public`.
+2. Install again with the sentence in Quickstart, or with `podcast-transcript install-skill --target <tool>` after `pipx install`.
+
+Whisper models were cached under the old spelling. Rename that cache directory to `podcast-transcript-public` (in `~/Library/Caches`, `%LOCALAPPDATA%`, or `~/.cache`) to keep the download. A new run otherwise downloads the model again. `PODCAST_TRANSCRIPT_CACHE` still overrides the path.
 
 ## Sample transcript
 
@@ -30,8 +39,44 @@ The command-line tool writes a simpler raw `transcript.md` from `segments.json`.
 
 ## Quickstart
 
+Ask your AI assistant to install the skill, then hand it an episode. You do not need a setup command for that path. The readable transcript comes from the assistant. The command line further down only writes a raw transcript.
+
+### Ask your assistant
+
+Send this install sentence. The address has to be the skill folder, not only the repository root.
+
+```text
+Install this skill for me: https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public
+```
+
+Codex installs it with its built-in skill-installer. The skill is ready on your next message. Claude Code and Cursor have no built-in installer: the assistant copies the folder into its skills directory and asks before it runs that command. If the skill does not show up afterward, start a new session.
+
+Then send an episode:
+
+```text
+Use podcast-transcript-public to turn this episode into a clean English transcript: <episode link>
+```
+
+A local file:
+
+```text
+Use podcast-transcript-public to process this audio file and give me Markdown and HTML: <file path>
+```
+
+A rough transcript, with no speech recognition:
+
+```text
+Use podcast-transcript-public to proofread this rough transcript: <paste text or file path>
+```
+
+In Codex you can also type `$` and choose `podcast-transcript-public`. The first time the skill handles audio, it shows the model, the download size, and the storage location, and waits until you approve.
+
+### Command line
+
+Python 3.9+ and FFmpeg are required. The tool does not install system software for you. This path writes a raw transcript with almost no punctuation, plus optional captions. Proofreading still happens in the assistant step above.
+
 ```bash
-pipx install "git+https://github.com/ZHUCH-520/podcast-trancript-public.git"
+pipx install "git+https://github.com/ZHUCH-520/podcast-transcript-public.git"
 podcast-transcript run episode.mp3 --output-dir ./episode --accept-download --language zh-en
 ```
 
@@ -52,23 +97,9 @@ A Xiaoyuzhou episode page, an Apple Podcasts episode link, an RSS feed, or a dir
 
 ## Install
 
-Call `$skill-installer` in Codex and give it the skill's GitHub address:
+Use the sentences in Quickstart. Codex, Claude Code, and Cursor can all take them.
 
-```text
-Use $skill-installer to install this skill: https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public
-```
-
-Once installed, send an episode link:
-
-```text
-Use $podcast-trancript-public to process this podcast in English and create Markdown and HTML: <episode link>
-```
-
-You can also choose local audio or video:
-
-```text
-Use $podcast-trancript-public to edit this recording in English and create Markdown and HTML.
-```
+Codex uses its built-in skill-installer and can run the skill on the next message. Claude Code and Cursor have no built-in installer. The assistant copies this folder into `~/.claude/skills/` or `~/.cursor/skills/` and asks before running the command. Other checked hosts are installed with `podcast-transcript install-skill` after the command-line tool is installed.
 
 If you already have a rough transcript, send the text directly. Speech recognition is not required.
 
@@ -82,17 +113,17 @@ podcast-transcript run https://example.com/episode.mp3 --output-dir ./episode --
 
 The command writes `raw-transcript.txt`, `segments.json`, and a simple `transcript.md`. `--diarize` adds `SPEAKER_00` style IDs when that optional runtime is already installed, or when `--accept-download` also covers its install. If diarization cannot be installed, the transcript is still written. `--captions both` also writes `transcript.srt` and `transcript.vtt`. Existing files are not overwritten. Choose `small`, `turbo`, or `large-v3` with `--profile`; otherwise the recommended profile is used. `large-v3` is never chosen automatically.
 
-`transcript.md` from this command is a readable copy of the raw segments. It is not the proofread Markdown and HTML the Codex skill produces.
+`transcript.md` from this command is a readable copy of the raw segments. It is not the proofread Markdown and HTML the skill produces.
 
 `podcast-transcript doctor`, `plan`, `setup`, `split`, and `diarize` call the same scripts as the skill. `podcast-transcript export segments.json --format srt --output captions.srt` renders captions from an existing segment file.
 
 ### Install the skill into an assistant
 
-The skill is a standard `SKILL.md` skill: one folder named `podcast-trancript-public`, with `SKILL.md` plus `scripts/`. Keep that folder name. Hosts and skill hubs that load this format should be able to run it. The installer copies that folder and does not rewrite `SKILL.md`.
+The skill is a standard `SKILL.md` skill: one folder named `podcast-transcript-public`, with `SKILL.md` plus `scripts/`. Keep that folder name. Hosts and skill hubs that load this format should be able to run it. The installer copies that folder and does not rewrite `SKILL.md`.
 
 These are the hosts whose skill location or install method was checked. This is not a live test inside each product:
 
-- Codex, through the `$skill-installer` sentence above
+- Codex, through the install sentence in Quickstart
 - Claude Code, Cursor, Qoder, Tongyi Lingma, CodeBuddy, TRAE, Qwen Code, and Kimi Code, through the directories below
 - WorkBuddy, by uploading the skill package. Prepare it with `podcast-transcript install-skill --target workbuddy --dest ./workbuddy-skill`. The official page does not name an on-disk directory, so that path is not guessed
 
@@ -125,7 +156,7 @@ These were checked and are not installed to a guessed path:
 - **WorkBuddy**: the official skills page describes uploading a package, but it does not name the directory. `podcast-transcript install-skill --target workbuddy --dest ./workbuddy-skill` prepares a folder you can upload. Third-party home-directory paths are not used.
 - **qcoder**: this is not a separate product name. Use `--target qoder`.
 
-Codex still uses the `$skill-installer` sentence above. Copy the folder rather than rewriting `SKILL.md`. The scripts must stay beside it.
+Codex still uses the install sentence in Quickstart. Copy the folder rather than rewriting `SKILL.md`. The scripts must stay beside it.
 
 ## Your first audio or video
 
@@ -138,9 +169,9 @@ You do not need to set up Whisper in advance. When the skill receives audio or v
 
 | Model | Best for | Tradeoff |
 |---|---|---|
-| `small` | Trying one episode or using modest hardware | Small and fast; names, accents, and noisy audio may need more correction |
-| `turbo` | A newer Apple Silicon Mac, or Windows or Linux with a suitable GPU | A good balance of speed and accuracy |
-| `large-v3` | Name-heavy shows, strong accents, or uneven recordings | The largest download, with higher memory and processing needs |
+| `small` | Trying one episode or using modest hardware | About 480 MB. Faster, but names, accents, and noisy audio may need more correction |
+| `turbo` | A newer Apple Silicon Mac, or Windows or Linux with a suitable GPU | About 3.2 GB on Apple Silicon, about 1.6 GB on Windows and Linux |
+| `large-v3` | Name-heavy shows, strong accents, or uneven recordings | About 3.2 GB, with higher memory and processing needs |
 
 Apple Silicon Mac uses MLX Whisper. Intel Mac, Windows, and Linux use faster-whisper. On Windows and Linux, CUDA with float16 is used when it is available; otherwise faster-whisper runs on CPU with int8. Models are stored in your operating system's user cache, not inside the skill folder.
 
@@ -174,18 +205,18 @@ The summary is an entry point. It never replaces the full transcript.
 2. Create a folder for the episode and preserve the original media and rough transcript.
 3. Check the local transcription setup and show the model, download size, and storage location. Preparation starts only after approval.
 4. Verify guest names and terminology against the episode page, then split long transcripts losslessly with the bundled script.
-5. Fix punctuation, speaker labels, and obvious recognition errors one chunk at a time.
+5. Fix punctuation, speaker labels, and obvious recognition errors one chunk at a time. This proofreading sends the transcript text to the AI assistant you are using.
 6. Merge the chunks, check the beginning, ending, gaps, duplicates, and formatting, then create Markdown and HTML.
 
 Claims, examples, caveats, and useful speaking habits stay in the transcript. If a speaker's identity cannot be confirmed, the skill uses a neutral label such as `Speaker A` instead of guessing.
 
-Optional local diarization can add IDs such as `SPEAKER_00`. It stays off until you approve a separate download. Those IDs are not names; the skill still checks them against the episode page.
+Optional local diarization can add IDs such as `SPEAKER_00`. It stays off until you approve a separate download. The pyannote models are gated: accept their terms on Hugging Face and set `HF_TOKEN` (or `HUGGING_FACE_HUB_TOKEN`). Those IDs are not names; the skill still checks them against the episode page.
 
 ## Where files go
 
 After local transcription is ready, the audio and models remain on your computer. Models live in the system user cache; episode files and transcripts stay in the folder created for that task.
 
-The skill explains when it needs the network to fetch an episode or verify public information. Sending audio to a cloud transcription service requires your explicit approval.
+Audio and transcription stay on your machine. Proofreading sends the transcript text to the AI assistant you are using, under that provider's data policy. The skill explains when it needs the network to fetch an episode or verify public information. Sending audio to a cloud transcription service requires your explicit approval.
 
 Generated transcripts do not include usernames, email addresses, local computer paths, credentials, or internal logs. The introduction pages have no analytics scripts, tracking pixels, or remote fonts.
 
@@ -210,7 +241,7 @@ Generated transcripts do not include usernames, email addresses, local computer 
 
 ## Repository contents
 
-- [`SKILL.md`](./podcast-trancript-public/SKILL.md): the skill's instructions
+- [`SKILL.md`](./podcast-transcript-public/SKILL.md): the skill's instructions
 - `README.md`: installation and usage guidance
 - [`index.html`](./docs/index.html): the English GitHub Pages introduction
 - [`zh.html`](./docs/zh.html): the Chinese GitHub Pages introduction

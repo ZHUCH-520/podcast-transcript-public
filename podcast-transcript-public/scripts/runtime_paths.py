@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Mapping, Optional
 
 
-APP_NAME = "podcast-trancript-public"
+APP_NAME = "podcast-transcript-public"
 
 
 @dataclass(frozen=True)

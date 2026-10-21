@@ -3,8 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>podcast-trancript-public | Turn podcasts into readable transcripts</title>
-  <meta name="description" content="Turn podcast audio, video, episode links, or rough transcripts into polished Markdown and HTML transcripts.">
+  <title>podcast-transcript — turn any podcast into a readable transcript (open-source AI skill)</title>
+  <meta name="description" content="Ask your AI assistant to turn an episode into a readable transcript. Audio stays on your machine; proofreading sends the text to your assistant&#x27;s model. You get Markdown and HTML.">
+  <link rel="alternate" hreflang="zh-Hans" href="https://zhuch-520.github.io/podcast-transcript-public/zh.html">
+  <link rel="alternate" hreflang="en" href="https://zhuch-520.github.io/podcast-transcript-public/">
+  <link rel="alternate" hreflang="x-default" href="https://zhuch-520.github.io/podcast-transcript-public/">
+  <meta property="og:title" content="podcast-transcript — turn an episode into a transcript worth reading">
+  <meta property="og:description" content="Audio stays on your machine. For proofreading, the transcript text goes to the model behind the assistant you&#x27;re using.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zhuch-520.github.io/podcast-transcript-public/">
+  <meta property="og:locale" content="en_US">
   <meta name="theme-color" content="#0b0d0c">
   <style>
     :root {
@@ -23,7 +31,7 @@
       --signal-dark: #263710;
       --coral: #ff7657;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-      --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       --page: min(1440px, calc(100vw - 48px));
       --section-y: clamp(72px, 8vw, 128px);
       --radius: 18px;
@@ -145,16 +153,6 @@
       color: var(--signal);
     }
 
-    .site-header nav .language-link {
-      padding: 7px 10px;
-      border: 1px solid var(--rule);
-      color: var(--signal);
-      font-family: var(--mono);
-    }
-
-    .site-header nav .language-link:hover {
-      border-color: var(--signal);
-    }
 
     .section-dark,
     .section-paper,
@@ -198,13 +196,13 @@
     }
 
     .hero {
-      min-height: calc(100svh - 88px);
+      min-height: 0;
       display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(480px, 1.1fr);
-      align-items: center;
-      gap: clamp(48px, 7vw, 112px);
-      padding-top: clamp(64px, 7vw, 106px);
-      padding-bottom: clamp(72px, 8vw, 118px);
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      align-items: start;
+      gap: clamp(28px, 4vw, 64px);
+      padding-top: 32px;
+      padding-bottom: 56px;
     }
 
     .hero-copy h1,
@@ -220,23 +218,28 @@
 
     .hero-copy h1 {
       max-width: 790px;
-      margin-top: 24px;
-      font-size: clamp(3.5rem, 7.1vw, 7.7rem);
+      margin-top: 12px;
+      font-size: clamp(2.35rem, 4.1vw, 4.05rem);
     }
 
-    .hero-copy > p:not(.eyebrow) {
-      max-width: 660px;
-      margin: 34px 0 0;
+    .hero-copy > p.hero-sub {
+      max-width: 40rem;
+      margin: 12px 0 0;
       color: #d0d4cb;
-      font-size: clamp(1.1rem, 1.6vw, 1.42rem);
-      line-height: 1.55;
+      font-size: 1.0625rem;
+      line-height: 1.7;
+    }
+
+    .hero-copy b {
+      color: var(--signal);
+      font-weight: 700;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 40px;
+      margin-top: 8px;
     }
 
     .button {
@@ -275,13 +278,15 @@
     }
 
     .hero-note {
-      margin-top: 22px;
+      margin-top: 16px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
+      max-width: 40rem;
       color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.78rem;
+      font-family: var(--sans);
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .hero-note::before {
@@ -310,8 +315,8 @@
       gap: 14px;
       border-bottom: 1px solid var(--rule);
       color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.72rem;
+      font-family: var(--sans);
+      font-size: 0.75rem;
     }
 
     .window-dots {
@@ -346,7 +351,7 @@
       border: 1px solid var(--rule);
       color: var(--muted);
       font-family: var(--mono);
-      font-size: 0.66rem;
+      font-size: 0.75rem;
       text-align: center;
     }
 
@@ -377,8 +382,8 @@
 
     .sample-heading span {
       color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.68rem;
+      font-family: var(--sans);
+      font-size: 0.8125rem;
     }
 
     .speech {
@@ -395,8 +400,8 @@
 
     .speaker {
       color: var(--signal);
-      font-family: var(--mono);
-      font-size: 0.74rem;
+      font-family: var(--sans);
+      font-size: 0.875rem;
       font-weight: 700;
     }
 
@@ -420,8 +425,9 @@
       gap: 18px;
       border-top: 1px solid var(--rule);
       color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.7rem;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      line-height: 1.5;
     }
 
     .pass {
@@ -485,8 +491,9 @@
       justify-content: space-between;
       gap: 18px;
       border-bottom: 1px solid var(--rule-light);
-      font-family: var(--mono);
-      font-size: 0.76rem;
+      font-family: var(--sans);
+      font-size: 0.9375rem;
+      line-height: 1.5;
     }
 
     .preserved-list b {
@@ -524,8 +531,8 @@
       border: 1px solid #6b7168;
       color: var(--text);
       background: transparent;
-      font-family: var(--mono);
-      font-size: 0.72rem;
+      font-family: var(--sans);
+      font-size: 0.875rem;
       cursor: pointer;
     }
 
@@ -536,7 +543,7 @@
     }
 
     .transcript-body {
-      min-height: 340px;
+      min-height: 0;
       margin: 0;
       padding: clamp(24px, 4vw, 48px);
       color: #e5e8df;
@@ -555,7 +562,8 @@
       padding: 16px 18px;
       border-top: 1px solid var(--rule);
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .no-script-sample {
@@ -593,8 +601,9 @@
 
     .evidence-strip span {
       color: var(--muted-dark);
-      font-family: var(--mono);
-      font-size: 0.68rem;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      line-height: 1.45;
     }
 
     .workflow-grid {
@@ -605,7 +614,7 @@
     }
 
     .workflow-card {
-      min-height: 280px;
+      min-height: 0;
       padding: clamp(24px, 3vw, 38px);
       display: flex;
       flex-direction: column;
@@ -622,11 +631,11 @@
     .workflow-number {
       color: var(--signal);
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: 0.75rem;
     }
 
     .workflow-card h3 {
-      margin: auto 0 14px;
+      margin: 18px 0 12px;
       font-size: clamp(1.4rem, 2.3vw, 2.05rem);
       letter-spacing: -0.045em;
       line-height: 1.08;
@@ -635,7 +644,8 @@
     .workflow-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .model-grid {
@@ -646,14 +656,30 @@
     }
 
     .model-card {
-      min-height: 245px;
+      min-height: 0;
       padding: 28px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 8px;
       border-right: 1px solid var(--rule-light);
       border-bottom: 1px solid var(--rule-light);
       background: var(--paper);
+    }
+
+    .model-card h3 {
+      margin: 0;
+      font-size: clamp(1.7rem, 2.2vw, 2.15rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .model-card .model-size {
+      margin: 0;
+      color: #355500;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      line-height: 1.45;
     }
 
     .model-card.featured {
@@ -661,17 +687,11 @@
       box-shadow: inset 0 4px 0 var(--signal-dark);
     }
 
-    .model-card span {
-      color: #355500;
-      font-family: var(--mono);
-      font-size: 0.76rem;
-      font-weight: 700;
-    }
-
     .model-card p {
-      margin: 64px 0 0;
+      margin: 4px 0 0;
       color: var(--muted-dark);
-      font-size: 0.96rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .platform-note,
@@ -696,7 +716,7 @@
     }
 
     .quality-card {
-      min-height: 300px;
+      min-height: 0;
       padding: 28px;
       display: flex;
       flex-direction: column;
@@ -708,12 +728,12 @@
     .quality-code {
       color: #355500;
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
     }
 
     .quality-card h3 {
-      margin: auto 0 16px;
+      margin: 18px 0 14px;
       font-size: clamp(1.55rem, 2.2vw, 2.15rem);
       letter-spacing: -0.05em;
     }
@@ -721,7 +741,8 @@
     .quality-card p {
       margin: 0;
       color: var(--muted-dark);
-      font-size: 0.92rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .install-layout {
@@ -796,7 +817,7 @@
       border-bottom: 1px solid var(--rule-light);
       color: var(--muted-dark);
       font-family: var(--mono);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
     }
 
     .prompt-box code {
@@ -852,7 +873,7 @@
     }
 
     .trust-card {
-      min-height: 210px;
+      min-height: 0;
       padding: 27px;
       border-right: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
@@ -861,11 +882,11 @@
     .trust-card span {
       color: var(--signal);
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: 0.75rem;
     }
 
     .trust-card h3 {
-      margin: 50px 0 10px;
+      margin: 14px 0 10px;
       font-size: 1.42rem;
       letter-spacing: -0.04em;
     }
@@ -873,7 +894,8 @@
     .trust-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.9375rem;
+      line-height: 1.6;
     }
 
     .boundary-note {
@@ -931,7 +953,7 @@
     }
 
     .closing {
-      min-height: 540px;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -985,8 +1007,9 @@
       justify-content: space-between;
       gap: 24px;
       color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.72rem;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      line-height: 1.5;
     }
 
     footer p {
@@ -1040,11 +1063,8 @@
       }
 
       .site-header nav {
-        gap: 0;
-      }
-
-      .site-header nav a:not(.language-link) {
-        display: none;
+        gap: 16px;
+        overflow-x: auto;
       }
 
       .hero {
@@ -1052,7 +1072,7 @@
       }
 
       .hero-copy h1 {
-        font-size: clamp(3.1rem, 15vw, 5rem);
+        font-size: clamp(2.05rem, 8.8vw, 2.85rem);
       }
 
       .hero-actions,
@@ -1102,7 +1122,7 @@
       }
 
       .transcript-body {
-        min-height: 390px;
+        min-height: 0;
       }
 
       .evidence-strip,
@@ -1125,11 +1145,11 @@
 
       .workflow-card,
       .quality-card {
-        min-height: 230px;
+        min-height: 0;
       }
 
       .closing {
-        min-height: 460px;
+        min-height: 0;
       }
 
       footer {
@@ -1148,35 +1168,387 @@
         animation: none !important;
       }
     }
+
+    .header-tools {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.4vw, 36px);
+      min-width: 0;
+    }
+
+    .site-header nav {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
+      line-height: 1.5;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      border: 1px solid var(--rule);
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .language-switch a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .language-switch a[aria-current="page"] {
+      color: var(--signal);
+    }
+
+    .language-switch a:hover {
+      color: var(--signal);
+    }
+
+    .hero-copy h1 .line,
+    .proof-copy h2 .line,
+    .section-heading h2 .line,
+    .install-copy h2 .line,
+    .trust-copy h2 .line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .trust-copy h2 {
+      font-size: clamp(1.85rem, 3vw, 2.7rem);
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .install-copy h2 {
+      font-size: clamp(2.3rem, 4vw, 4rem);
+      line-height: 1.05;
+    }
+
+    .trust-strip {
+      grid-column: 1 / -1;
+      margin: 4px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    .prereq-note {
+      margin: 0 0 22px;
+      padding: 16px 18px;
+      border-left: 3px solid #355500;
+      color: var(--text-dark);
+      background: rgba(53, 85, 0, 0.06);
+      font-size: 0.9375rem;
+      line-height: 1.65;
+    }
+
+    .sample-disclaimer {
+      margin: 14px 0 0;
+      color: var(--muted-dark);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .trust-card.alert {
+      box-shadow: inset 3px 0 0 var(--coral);
+    }
+
+    .trust-card.alert h3 {
+      color: var(--coral);
+    }
+
+    .transcript-body p {
+      margin: 0 0 1.15em;
+    }
+
+    .transcript-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .transcript-body strong {
+      color: var(--paper-bright);
+      font-weight: 700;
+    }
+
+    .raw-transcript {
+      white-space: pre-wrap;
+    }
+
+    p code,
+    .faq-list code,
+    .qs-note code,
+    .prereq-note code {
+      font-family: var(--mono);
+      font-size: 0.92em;
+    }
+
+    button.button {
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .qs {
+      margin: 8px 0 0;
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      background: var(--ink-raised);
+      overflow: hidden;
+      color: var(--text);
+    }
+
+    .install-layout .qs {
+      margin-top: 0;
+    }
+
+    .qs-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .qs-tabs button {
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 12px 16px;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      background: transparent;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .qs-tabs button.on {
+      color: var(--text);
+      border-bottom-color: var(--signal);
+    }
+
+    .qs-panel {
+      padding: 12px 14px 14px;
+    }
+
+    .qs-step {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0;
+      color: var(--text);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .qs-step .n {
+      width: 22px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--signal);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .chips {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .chip {
+      padding: 4px 10px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      color: var(--muted);
+      background: transparent;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .chip.on,
+    .chip:hover {
+      border-color: var(--signal);
+      color: var(--signal);
+    }
+
+    .qs-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      padding: 10px 12px;
+      border: 1px solid #2a2f29;
+      border-radius: 8px;
+      background: var(--ink);
+    }
+
+    .qs-line code {
+      flex: 1;
+      min-width: 0;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .qs-panel[data-panel="cli"] .qs-line code {
+      font-family: var(--mono);
+      font-size: 0.875rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .qs .copy-button {
+      flex: 0 0 auto;
+      min-height: 0;
+      padding: 6px 12px;
+      border: 0;
+      border-radius: 6px;
+      color: var(--ink);
+      background: var(--signal);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .qs .copy-button:hover {
+      color: var(--ink);
+      background: #d6ff82;
+    }
+
+    .qs-note {
+      margin: 4px 0 2px;
+      color: var(--muted);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .workflow-card strong,
+    .faq-list strong {
+      color: inherit;
+      font-weight: 700;
+    }
+
+    .section-dark .workflow-card strong {
+      color: var(--paper-bright);
+    }
+
+    @media (max-width: 760px) {
+      .site-header {
+        align-items: stretch;
+        flex-wrap: wrap;
+      }
+
+      .header-tools {
+        width: 100%;
+        padding-bottom: 8px;
+      }
+
+      .site-header nav {
+        flex: 1;
+        gap: 16px;
+        overflow-x: auto;
+        padding: 8px 0 10px;
+      }
+
+      .site-header nav a {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
+      .chips {
+        margin-left: 30px;
+      }
+
+      .qs-line {
+        flex-direction: column;
+      }
+
+      .qs .copy-button {
+        align-self: flex-end;
+      }
+
+      .trust-copy h2 .line {
+        white-space: normal;
+      }
+    }
+
   </style>
 </head>
-<body>
+<body data-copied="Copied" data-copy-failed="Copy manually">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
-    <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true"></span>podcast-trancript-public</a>
-    <nav aria-label="Main navigation">
-      <a href="#proof">See the difference</a>
-      <a href="#workflow">How it works</a>
-      <a href="#first-use">First use</a>
-      <a href="#install">Install</a>
-      <a href="#trust">Privacy</a>
-      <a href="#faq">FAQ</a>
-      <a class="language-link" href="./zh.html" lang="zh-CN">中文</a>
-    </nav>
+    <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true"></span>podcast-transcript</a>
+    <div class="header-tools">
+      <nav aria-label="Main navigation">
+        <a href="#proof">See the difference</a>
+        <a href="#install">Install</a>
+        <a href="#trust">Privacy</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="language-switch" aria-label="Language">
+        <a href="./zh.html" hreflang="zh-Hans" lang="zh-CN">中文</a>
+        <span aria-hidden="true">|</span>
+        <a href="./index.html" hreflang="en" lang="en" aria-current="page">EN</a>
+      </div>
+    </div>
   </header>
 
   <main id="main">
     <section class="hero section-dark" aria-labelledby="hero-heading">
       <div class="hero-copy">
-        <p class="eyebrow">Podcast transcription · Local first</p>
+        <p class="eyebrow">An open-source podcast transcript skill for your AI assistant · MIT</p>
         <h1 id="hero-heading">Turn an episode into a transcript worth reading.</h1>
-        <p>Give it audio, video, an episode link, or a rough transcript. It sorts out names, punctuation, speakers, and paragraphs while keeping the original meaning intact—then gives you Markdown and HTML.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public">View the skill <span aria-hidden="true">↓</span></a>
-          <a class="button button-ghost" href="#install">See how to use it <span aria-hidden="true">→</span></a>
+        <p class="hero-sub">No commands to learn. Ask your AI assistant in one sentence: it transcribes on your machine, then adds punctuation, speakers, and verified names—<b>without cutting or summarizing</b>—and hands you Markdown and HTML.</p>
+        
+        <div class="qs" aria-label="Quick start">
+          <div class="qs-tabs" role="tablist">
+            <button class="on" type="button" role="tab" id="hero-tab-chat" data-tab="chat" aria-selected="true" aria-controls="hero-panel-chat">Ask your assistant</button>
+            <button type="button" role="tab" id="hero-tab-cli" data-tab="cli" aria-selected="false" aria-controls="hero-panel-cli" tabindex="-1">Command line</button>
+          </div>
+          <div class="qs-panel" role="tabpanel" id="hero-panel-chat" data-panel="chat" aria-labelledby="hero-tab-chat">
+            <div class="qs-step"><span class="n">1</span><span>Install — send this to your AI assistant</span></div>
+            <div class="qs-line"><code>Install this skill for me: https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <div class="qs-step"><span class="n">2</span><span>Use — hand it an episode</span><span class="chips" role="group" aria-label="Example"><button class="chip on" type="button" data-say="Use podcast-transcript-public to turn this episode into a clean English transcript: &lt;episode link&gt;" aria-pressed="true">Episode link</button><button class="chip" type="button" data-say="Use podcast-transcript-public to process this audio file and give me Markdown and HTML: &lt;file path&gt;" aria-pressed="false">Audio file</button><button class="chip" type="button" data-say="Use podcast-transcript-public to proofread this rough transcript: &lt;paste text or file path&gt;" aria-pressed="false">Rough transcript</button></span></div>
+            <div class="qs-line"><code data-say-target>Use podcast-transcript-public to turn this episode into a clean English transcript: &lt;episode link&gt;</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <p class="qs-note">Codex installs it with its built-in skill-installer, ready on your next message. Claude Code, Cursor and others have no built-in installer—your assistant copies the folder into its skills directory with a command and asks before running it; if the skill doesn&#x27;t show up, start a new session. Before the first audio job, it tells you what it needs to download, how big it is, and where it goes—nothing starts until you say yes.</p>
+          </div>
+          <div class="qs-panel" role="tabpanel" id="hero-panel-cli" data-panel="cli" aria-labelledby="hero-tab-cli" hidden>
+            <div class="qs-step"><span>No AI assistant? Use the command line (needs Python 3.9+ and FFmpeg)</span></div>
+            <div class="qs-line"><code class="cli">pipx install &quot;git+https://github.com/ZHUCH-520/podcast-transcript-public.git&quot;
+podcast-transcript run episode.mp3 --output-dir ./episode --accept-download --language en</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <p class="qs-note">The CLI gives you a raw transcript (barely punctuated) and optional captions; the readable, proofread version comes from the AI-assistant step. To install into TRAE, Lingma, Kimi Code and others: <code>podcast-transcript install-skill --target &lt;tool&gt;</code> (<code>--list</code> shows them all).</p>
+          </div>
         </div>
-        <p class="hero-note">Built for interviews, roundtables, and long-form video</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#proof">See the difference <span aria-hidden="true">↓</span></a>
+          <a class="button button-ghost" href="https://github.com/ZHUCH-520/podcast-transcript-public">View on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="hero-note">Audio stays on your machine; for proofreading, the transcript text goes to the model behind the assistant you're using.</p>
       </div>
 
       <div class="transcript-window" aria-label="Edited transcript example">
@@ -1213,6 +1585,7 @@
           <span>Markdown + HTML</span>
         </div>
       </div>
+      <p class="trust-strip">MIT licensed · Works with Codex, Claude Code, Cursor, TRAE, Lingma, Qoder, CodeBuddy, Qwen Code, and Kimi Code</p>
     </section>
 
     <section class="section-paper" id="proof" aria-labelledby="proof-heading">
@@ -1230,27 +1603,38 @@
         </div>
 
         <div>
-          <div class="compare-card">
+          <div class="compare-card" data-raw-label="Show edited transcript" data-polished-label="Show rough transcript" data-raw-status="Now: rough transcript" data-polished-status="Now: edited transcript">
             <div class="compare-toolbar">
               <span class="compare-status" data-transcript-status aria-live="polite">Now: edited transcript</span>
               <button class="toggle-button" type="button" data-transcript-toggle aria-pressed="false">Show rough transcript</button>
             </div>
-            <pre class="transcript-body" data-transcript-body>**Host**: I keep trying to make decisions faster, but I still get them wrong. What am I missing?
-
-**Guest**: Speed amplifies the bias you already have. **Start by asking: what new evidence would change your mind?**</pre>
+            <div class="transcript-body" data-transcript-body>
+              <p><strong>Host:</strong> I keep trying to make decisions faster, but I still get them wrong. What am I missing?</p>
+              <p><strong>Guest:</strong> Speed amplifies the bias you already have. <strong>Start by asking: what new evidence would change your mind?</strong></p>
+            </div>
             <p class="compare-note">Only punctuation, speaker labels, and paragraph breaks changed. The guest's point stayed intact.</p>
-            <noscript><div class="no-script-sample">Rough ASR transcript:
-host i keep trying to make decisions faster but i still get them wrong what am i missing
+            <noscript><div class="no-script-sample">Rough transcript:
+speaker 1 i keep trying to make decisions faster but i still get them wrong what am i missing
 
 speaker 2 speed amplifies the bias you already have start by asking what new evidence would change your mind</div></noscript>
           </div>
+          <template id="transcript-polished">
+            <p><strong>Host:</strong> I keep trying to make decisions faster, but I still get them wrong. What am I missing?</p>
+            <p><strong>Guest:</strong> Speed amplifies the bias you already have. <strong>Start by asking: what new evidence would change your mind?</strong></p>
+          </template>
+          <template id="transcript-raw">
+            <div class="raw-transcript">speaker 1 i keep trying to make decisions faster but i still get them wrong what am i missing
+
+speaker 2 speed amplifies the bias you already have start by asking what new evidence would change your mind</div>
+          </template>
 
           <div class="evidence-strip" aria-label="Editing priorities">
-            <div><strong>Every chunk</strong><span>checked in sequence</span></div>
+            <div><strong>Every chunk</strong><span>proofread in order</span></div>
             <div><strong>Raw files</strong><span>left untouched</span></div>
             <div><strong>Names</strong><span>never guessed</span></div>
             <div><strong>Output</strong><span>Markdown + HTML</span></div>
           </div>
+          <p class="sample-disclaimer">This passage is a sample written for the docs. It is not a real episode or model output.</p>
         </div>
       </div>
     </section>
@@ -1287,13 +1671,13 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
         </article>
         <article class="workflow-card">
           <span class="workflow-number">05 / EDIT</span>
-          <h3>Clean up each chunk</h3>
-          <p>Punctuation, speaker labels, and obvious ASR errors are fixed without cutting the substance.</p>
+          <h3>Your assistant proofreads each chunk</h3>
+          <p>Your AI assistant fixes punctuation, speaker labels, and obvious recognition errors without cutting substance. <strong>This step sends the transcript text to that assistant's model.</strong></p>
         </article>
         <article class="workflow-card">
           <span class="workflow-number">06 / EXPORT</span>
           <h3>Merge, check, export</h3>
-          <p>The beginning, ending, gaps, duplicates, and formatting are checked before creating `transcript.md` and `transcript.html`.</p>
+          <p>The beginning, ending, gaps, duplicates, and formatting are checked before creating <code>transcript.md</code> and <code>transcript.html</code>.</p>
         </article>
       </div>
     </section>
@@ -1326,7 +1710,7 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
         <article class="quality-card">
           <span class="quality-code">04 · PORTABLE</span>
           <h3>The files are ready to use</h3>
-          <p>You get `transcript.md` for editing and `transcript.html` for reading or sharing, plus Unresolved Items only when something needs checking.</p>
+          <p>You get <code>transcript.md</code> for editing and <code>transcript.html</code> for reading or sharing, plus Unresolved Items only when something needs checking.</p>
         </article>
       </div>
     </section>
@@ -1339,21 +1723,25 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
         </div>
         <p>The skill checks your machine before choosing a transcription path. It shows the model, size, storage location, and network work clearly, then waits for your approval.</p>
       </div>
+      <p class="prereq-note">Before you start: an AI coding assistant that loads skills (Codex, Claude Code, Cursor, and others), Python 3.9+, and FFmpeg. The tool never installs system software for you. Speaker diarization also needs a Hugging Face account: accept the pyannote model terms, then set <code>HF_TOKEN</code> (or <code>HUGGING_FACE_HUB_TOKEN</code>).</p>
       <div class="model-grid">
         <article class="model-card">
-          <span>small · start quickly</span>
-          <p>The smallest and fastest option. Good for a first episode or modest hardware, though names, accents, and noisy recordings may need more correction.</p>
+          <h3>small</h3>
+          <p class="model-size">about 480 MB</p>
+          <p>Start quickly. The fastest option for a first episode or modest hardware, though names, accents, and noisy recordings may need more correction.</p>
         </article>
         <article class="model-card featured">
-          <span>turbo · balanced</span>
-          <p>The usual recommendation for newer Apple Silicon Macs. It can also work well on Windows or Linux with a suitable GPU.</p>
+          <h3>turbo</h3>
+          <p class="model-size">about 3.2 GB on Apple Silicon, about 1.6 GB on Windows and Linux</p>
+          <p>Balanced. The usual recommendation for newer Apple Silicon Macs, and a good fit for Windows or Linux with a suitable GPU.</p>
         </article>
         <article class="model-card">
-          <span>large-v3 · accuracy first</span>
-          <p>Better suited to name-heavy shows, strong accents, or uneven recordings. It is the largest download and uses more time and memory.</p>
+          <h3>large-v3</h3>
+          <p class="model-size">about 3.2 GB</p>
+          <p>Accuracy first. Better suited to name-heavy shows, strong accents, or uneven recordings. It uses more time and memory, and is never chosen automatically.</p>
         </article>
       </div>
-      <p class="platform-note">Apple Silicon Mac uses MLX Whisper; Intel Mac, Windows, and Linux use faster-whisper.</p>
+      <p class="platform-note">Sizes are the pinned downloads in the repo, rounded. Apple Silicon Mac uses MLX Whisper; Intel Mac, Windows, and Linux use faster-whisper.</p>
       <p class="rough-transcript-note">Already have a rough transcript? Skip Whisper and the model download—send the text as it is.</p>
     </section>
 
@@ -1361,44 +1749,46 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
       <div class="install-layout">
         <div class="install-copy">
           <p class="kicker">Install</p>
-          <h2 id="install-heading">Add the skill<br>to Codex.</h2>
-          <p>You do not need to learn a setup command. Call <code>$skill-installer</code> in Codex and give it the repository address below.</p>
-          <p>Without Codex, <code>pipx install</code> provides the <code>podcast-transcript</code> command. It transcribes a local file, a direct media URL, a Xiaoyuzhou or Apple Podcasts episode page, or an RSS feed only after <code>--accept-download</code>, then writes a raw transcript, segments, simple Markdown, and optional SRT or VTT. <code>podcast-transcript install-skill</code> copies the same skill folder into verified assistant directories. Claude Code and Cursor can load that folder; the repository guide explains where to copy it.</p>
+          <h2 id="install-heading">Two sentences to your assistant.<br>That's it.</h2>
+          <p>One sentence installs it, the next one hands it an episode. Works the same way in Codex, Claude Code, and Cursor.</p>
           <div class="install-actions">
-            <a class="button" href="https://github.com/ZHUCH-520/podcast-trancript-public">Open the GitHub repository</a>
-            <a class="button" href="https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public">View the skill</a>
-            <a class="button" href="https://github.com/ZHUCH-520/podcast-trancript-public#readme">Read the guide</a>
+            <a class="button" href="https://github.com/ZHUCH-520/podcast-transcript-public">Open the GitHub repository</a>
+            <a class="button" href="https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public">View the skill</a>
+            <a class="button" href="https://github.com/ZHUCH-520/podcast-transcript-public#readme">Read the guide</a>
           </div>
         </div>
-
         <div>
+          
+        <div class="qs" aria-label="Quick start">
+          <div class="qs-tabs" role="tablist">
+            <button class="on" type="button" role="tab" id="install-tab-chat" data-tab="chat" aria-selected="true" aria-controls="install-panel-chat">Ask your assistant</button>
+            <button type="button" role="tab" id="install-tab-cli" data-tab="cli" aria-selected="false" aria-controls="install-panel-cli" tabindex="-1">Command line</button>
+          </div>
+          <div class="qs-panel" role="tabpanel" id="install-panel-chat" data-panel="chat" aria-labelledby="install-tab-chat">
+            <div class="qs-step"><span class="n">1</span><span>Install — send this to your AI assistant</span></div>
+            <div class="qs-line"><code>Install this skill for me: https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <div class="qs-step"><span class="n">2</span><span>Use — hand it an episode</span><span class="chips" role="group" aria-label="Example"><button class="chip on" type="button" data-say="Use podcast-transcript-public to turn this episode into a clean English transcript: &lt;episode link&gt;" aria-pressed="true">Episode link</button><button class="chip" type="button" data-say="Use podcast-transcript-public to process this audio file and give me Markdown and HTML: &lt;file path&gt;" aria-pressed="false">Audio file</button><button class="chip" type="button" data-say="Use podcast-transcript-public to proofread this rough transcript: &lt;paste text or file path&gt;" aria-pressed="false">Rough transcript</button></span></div>
+            <div class="qs-line"><code data-say-target>Use podcast-transcript-public to turn this episode into a clean English transcript: &lt;episode link&gt;</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <p class="qs-note">Codex installs it with its built-in skill-installer, ready on your next message. Claude Code, Cursor and others have no built-in installer—your assistant copies the folder into its skills directory with a command and asks before running it; if the skill doesn&#x27;t show up, start a new session. Before the first audio job, it tells you what it needs to download, how big it is, and where it goes—nothing starts until you say yes. In Codex you can also type $ to pick it.</p>
+          </div>
+          <div class="qs-panel" role="tabpanel" id="install-panel-cli" data-panel="cli" aria-labelledby="install-tab-cli" hidden>
+            <div class="qs-step"><span>No AI assistant? Use the command line (needs Python 3.9+ and FFmpeg)</span></div>
+            <div class="qs-line"><code class="cli">pipx install &quot;git+https://github.com/ZHUCH-520/podcast-transcript-public.git&quot;
+podcast-transcript run episode.mp3 --output-dir ./episode --accept-download --language en</code><button class="copy-button" type="button" data-label="Copy">Copy</button></div>
+            <p class="qs-note">The CLI gives you a raw transcript (barely punctuated) and optional captions; the readable, proofread version comes from the AI-assistant step. To install into TRAE, Lingma, Kimi Code and others: <code>podcast-transcript install-skill --target &lt;tool&gt;</code> (<code>--list</code> shows them all).</p>
+          </div>
+        </div>
           <ol class="install-steps">
             <li>
-              <div><h3>Get the skill</h3><p>Keep the complete folder. `SKILL.md` is the main instruction file, and its scripts belong beside it.</p></div>
+              <div><h3>Ask it to install</h3><p>Send the install sentence to Codex, Claude Code, or Cursor.</p></div>
             </li>
             <li>
-              <div><h3>Let Codex install it</h3><p>Copy the installation sentence below and send it to Codex.</p></div>
+              <div><h3>Hand it an episode</h3><p>An episode link, a local audio file, or a rough transcript.</p></div>
             </li>
             <li>
-              <div><h3>Send an episode</h3><p>Paste an episode link or choose local audio or video, then say whether you want English, Chinese, or both.</p></div>
+              <div><h3>Get the files</h3><p><code>transcript.md</code> to edit, <code>transcript.html</code> to read or share.</p></div>
             </li>
           </ol>
-
-          <div class="prompt-box">
-            <div class="prompt-label">
-              <span>Copy this to install</span>
-              <button class="copy-button" type="button" data-copy="Use $skill-installer to install this skill: https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public">Copy</button>
-            </div>
-            <code>Use $skill-installer to install this skill: https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public</code>
-          </div>
-
-          <div class="prompt-box">
-            <div class="prompt-label">
-              <span>Then try this</span>
-              <button class="copy-button" type="button" data-copy="Use $podcast-trancript-public to process this podcast in English and create Markdown and HTML: &lt;episode link&gt;">Copy</button>
-            </div>
-            <code>Use $podcast-trancript-public to process this podcast in English and create Markdown and HTML: &lt;episode link&gt;</code>
-          </div>
         </div>
       </div>
     </section>
@@ -1407,8 +1797,8 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
       <div class="trust-layout">
         <div class="trust-copy">
           <p class="kicker">Where your files go</p>
-          <h2 id="trust-heading">Local by default.</h2>
-          <p>When local transcription is available, your audio stays on your machine. The skill explains when it needs the network to fetch an episode or verify a name. Sending audio to any cloud service requires your explicit approval.</p>
+          <h2 id="trust-heading">Audio stays local.<br>Text goes only to the AI you choose.</h2>
+          <p>Audio and transcription run on your machine. <strong>Proofreading sends the transcript text to the AI assistant you're using</strong> (for example Codex or Claude Code), under that provider's data policy. Network use for fetching episodes or checking names is announced first; cloud transcription of audio needs your explicit approval.</p>
           <p class="boundary-note">Paywalls, sign-ins, DRM, and platform protections are not bypassed. If access is restricted, provide media or text you obtained legally.</p>
         </div>
 
@@ -1416,20 +1806,25 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
           <article class="trust-card">
             <span>01</span>
             <h3>Audio is not uploaded by default</h3>
-            <p>Local tools are used when available. Cloud transcription only happens after you approve it.</p>
+            <p>Transcription runs on your machine. Cloud transcription only happens after you approve it.</p>
           </article>
-          <article class="trust-card">
+          <article class="trust-card alert">
             <span>02</span>
-            <h3>This page does not track you</h3>
-            <p>There are no analytics scripts, tracking pixels, remote fonts, or external assets.</p>
+            <h3>The transcript goes to your AI</h3>
+            <p>Text only, never audio—and only to the model behind the assistant you use. For sensitive recordings, run the CLI alone and keep the raw transcript.</p>
           </article>
           <article class="trust-card">
             <span>03</span>
+            <h3>This page does not track you</h3>
+            <p>There are no analytics scripts, tracking pixels, remote fonts, or other external assets.</p>
+          </article>
+          <article class="trust-card">
+            <span>04</span>
             <h3>Downloads are shown first</h3>
             <p>You see the model, approximate size, and storage location before anything downloads.</p>
           </article>
           <article class="trust-card">
-            <span>04</span>
+            <span>05</span>
             <h3>You decide what happens next</h3>
             <p>The workflow stops after producing Markdown and HTML. Nothing is uploaded or published automatically.</p>
           </article>
@@ -1449,11 +1844,23 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
       <div class="faq-list">
         <details>
           <summary>Will my audio be uploaded?</summary>
-          <p>Not by default. When a local transcription tool is available, the audio stays on your machine. If a cloud service is needed, you will see the service and the data it requires before anything is sent.</p>
+          <p>Your audio, no. Transcription runs locally. The <strong>transcript text</strong> is sent to your AI assistant's model for proofreading. Cloud transcription only happens after you approve the service and the data it needs.</p>
         </details>
         <details>
-          <summary>Does `small` reduce transcription quality?</summary>
-          <p>Sometimes, especially with names, strong accents, or background noise. The tradeoff is a smaller download and faster run. Start there for a trial, then move to `turbo` or `large-v3` if the recording needs more accuracy.</p>
+          <summary>Which AI assistants work?</summary>
+          <p>Codex installs from one sentence and can use the skill on your next message. Claude Code and Cursor have no built-in installer: the assistant copies the folder into its skills directory after you approve, or you can run <code>podcast-transcript install-skill --target claude</code> or <code>cursor</code>. TRAE, Lingma, Qoder, CodeBuddy, Qwen Code, and Kimi Code install with <code>install-skill</code> into directories whose locations were checked. Other hosts that read <code>SKILL.md</code> usually work too. Those locations were checked from the docs, not live-tested inside every product.</p>
+        </details>
+        <details>
+          <summary>Does it cost money?</summary>
+          <p>The tool is free and MIT-licensed. Local transcription costs nothing. Proofreading uses your AI assistant's own quota.</p>
+        </details>
+        <details>
+          <summary>Can it handle Chinese and English together?</summary>
+          <p>Yes. Use <code>zh-en</code>. English names are more likely to stay in Latin script, and you can put names in a glossary file.</p>
+        </details>
+        <details>
+          <summary>Does small reduce transcription quality?</summary>
+          <p>Sometimes, especially with names, strong accents, or background noise. The tradeoff is a roughly 480 MB download and a faster run. Start there for a trial, then move to turbo or large-v3 if the recording needs more accuracy.</p>
         </details>
         <details>
           <summary>Where are models stored?</summary>
@@ -1461,11 +1868,11 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
         </details>
         <details>
           <summary>I already have a rough transcript. Do I need a model?</summary>
-          <p>No. The skill keeps the rough text, splits it safely, and goes straight to checking and editing.</p>
+          <p>No. The skill keeps the rough text, splits it into small chunks, and goes straight to checking and editing.</p>
         </details>
         <details>
           <summary>Will it identify every speaker?</summary>
-          <p>Not reliably in every recording. Optional local diarization can add IDs such as SPEAKER_00, but those IDs are not names. When names can be verified, they are used. Otherwise the transcript keeps a neutral label such as Speaker A for you to review.</p>
+          <p>Not reliably in every recording. Optional local diarization can add IDs such as SPEAKER_00, but those IDs are not names. The first pyannote download needs you to accept the model terms on Hugging Face and set <code>HF_TOKEN</code> (or <code>HUGGING_FACE_HUB_TOKEN</code>). When names can be verified, they are used. Otherwise the transcript keeps a neutral label such as Speaker A for you to review.</p>
         </details>
         <details>
           <summary>Will it bypass a paywall or protected media?</summary>
@@ -1483,66 +1890,119 @@ speaker 2 speed amplifies the bias you already have start by asking what new evi
       <h2 id="closing-heading">Pick a conversation you have<br>been meaning to revisit.</h2>
       <p>Send the link or file. Review a short edited sample first, then decide whether to continue.</p>
       <div class="closing-actions">
-        <a class="button button-primary" href="https://github.com/ZHUCH-520/podcast-trancript-public/tree/main/podcast-trancript-public">View the skill</a>
-        <a class="button" href="#install">See installation</a>
+        <button class="button button-primary" type="button" data-copy="Install this skill for me: https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public" data-label="Copy install sentence">Copy install sentence</button>
+        <a class="button" href="https://github.com/ZHUCH-520/podcast-transcript-public">Star on GitHub ⭐</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>podcast-trancript-public · A Codex skill for readable podcast transcripts</p>
+    <p>podcast-transcript-public · MIT licensed · A podcast transcript skill for Codex, Claude Code, Cursor and more</p>
     <p><a href="#main">Back to top ↑</a></p>
   </footer>
 
   <script>
-    const transcriptStates = {
-      raw: {
-        label: "Show edited transcript",
-        status: "Now: rough ASR transcript",
-        body: "host i keep trying to make decisions faster but i still get them wrong what am i missing\n\nspeaker 2 speed amplifies the bias you already have start by asking what new evidence would change your mind",
-      },
-      polished: {
-        label: "Show rough transcript",
-        status: "Now: edited transcript",
-        body: "**Host**: I keep trying to make decisions faster, but I still get them wrong. What am I missing?\n\n**Guest**: Speed amplifies the bias you already have. **Start by asking: what new evidence would change your mind?**",
-      },
-    };
+    (function () {
+      var copiedLabel = document.body.getAttribute("data-copied") || "Copied";
+      var failedLabel = document.body.getAttribute("data-copy-failed") || "Copy manually";
 
-    const transcriptToggle = document.querySelector("[data-transcript-toggle]");
-    const transcriptStatus = document.querySelector("[data-transcript-status]");
-    const transcriptBody = document.querySelector("[data-transcript-body]");
-    let transcriptMode = "polished";
-
-    if (transcriptToggle && transcriptStatus && transcriptBody) {
-      transcriptToggle.addEventListener("click", () => {
-        transcriptMode = transcriptMode === "polished" ? "raw" : "polished";
-        const state = transcriptStates[transcriptMode];
-        transcriptBody.textContent = state.body;
-        transcriptStatus.textContent = state.status;
-        transcriptToggle.textContent = state.label;
-        transcriptToggle.setAttribute("aria-pressed", String(transcriptMode === "raw"));
+      document.querySelectorAll(".qs").forEach(function (qs) {
+        var tabs = qs.querySelectorAll('[role="tab"]');
+        var panels = qs.querySelectorAll('[role="tabpanel"]');
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            var name = tab.getAttribute("data-tab");
+            tabs.forEach(function (item) {
+              var on = item === tab;
+              item.classList.toggle("on", on);
+              item.setAttribute("aria-selected", on ? "true" : "false");
+              item.tabIndex = on ? 0 : -1;
+            });
+            panels.forEach(function (panel) {
+              panel.hidden = panel.getAttribute("data-panel") !== name;
+            });
+          });
+        });
+        var chips = qs.querySelectorAll("[data-say]");
+        var target = qs.querySelector("[data-say-target]");
+        chips.forEach(function (chip) {
+          chip.addEventListener("click", function () {
+            chips.forEach(function (item) {
+              var on = item === chip;
+              item.classList.toggle("on", on);
+              item.setAttribute("aria-pressed", on ? "true" : "false");
+            });
+            if (target) target.textContent = chip.getAttribute("data-say") || "";
+          });
+        });
       });
-    }
 
-    document.querySelectorAll("[data-copy]").forEach((button) => {
-      button.addEventListener("click", async () => {
-        const value = button.getAttribute("data-copy") || "";
-        const original = button.textContent;
-        try {
-          await navigator.clipboard.writeText(value);
-          button.textContent = "Copied";
-          button.dataset.copied = "true";
-        } catch (error) {
-          button.textContent = "Copy manually";
-          button.dataset.copyFailed = "true";
-        }
-        window.setTimeout(() => {
-          button.textContent = original;
-          delete button.dataset.copied;
-          delete button.dataset.copyFailed;
-        }, 1600);
+      var card = document.querySelector(".compare-card");
+      var toggle = document.querySelector("[data-transcript-toggle]");
+      var status = document.querySelector("[data-transcript-status]");
+      var transcriptBody = document.querySelector("[data-transcript-body]");
+      var polished = document.getElementById("transcript-polished");
+      var raw = document.getElementById("transcript-raw");
+      var mode = "polished";
+      if (toggle && status && transcriptBody && polished && raw && card) {
+        toggle.addEventListener("click", function () {
+          mode = mode === "polished" ? "raw" : "polished";
+          var template = mode === "raw" ? raw : polished;
+          transcriptBody.replaceChildren(template.content.cloneNode(true));
+          status.textContent = card.getAttribute(mode === "raw" ? "data-raw-status" : "data-polished-status");
+          toggle.textContent = card.getAttribute(mode === "raw" ? "data-raw-label" : "data-polished-label");
+          toggle.setAttribute("aria-pressed", mode === "raw" ? "true" : "false");
+        });
+      }
+
+      document.querySelectorAll("[data-copy], .qs .copy-button").forEach(function (button) {
+        button.addEventListener("click", function () {
+          var value = button.getAttribute("data-copy");
+          if (!value) {
+            var code = button.parentElement && button.parentElement.querySelector("code");
+            value = code ? code.textContent.replace(/\s+$/g, "").replace(/^\s+/g, "") : "";
+          }
+          var original = button.getAttribute("data-label") || button.textContent;
+          var done = function (ok) {
+            button.textContent = ok ? copiedLabel : failedLabel;
+            window.setTimeout(function () {
+              button.textContent = original;
+            }, 1500);
+          };
+          var copyWithTextarea = function () {
+            var area = document.createElement("textarea");
+            area.value = value;
+            area.setAttribute("readonly", "");
+            area.style.position = "fixed";
+            area.style.top = "0";
+            area.style.left = "0";
+            area.style.opacity = "0";
+            document.body.appendChild(area);
+            area.focus();
+            area.select();
+            var ok = false;
+            try {
+              ok = document.execCommand("copy");
+            } catch (err) {
+              ok = false;
+            }
+            document.body.removeChild(area);
+            return ok;
+          };
+          var finish = function (ok) { done(ok); };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(function () {
+              finish(true);
+            }).catch(function () {
+              finish(copyWithTextarea());
+            });
+          } else {
+            finish(copyWithTextarea());
+          }
+        });
       });
-    });
+    })();
   </script>
+
 </body>
 </html>

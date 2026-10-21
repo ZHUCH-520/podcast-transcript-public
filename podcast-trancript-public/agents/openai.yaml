@@ -1,4 +1,0 @@
-interface:
-  display_name: "Podcast Transcript Public"
-  short_description: "Podcast audio to readable Markdown and HTML."
-  default_prompt: "Use $podcast-trancript-public to process this podcast locally and produce Markdown plus standalone HTML."

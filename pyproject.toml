@@ -20,8 +20,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/ZHUCH-520/podcast-trancript-public"
-Repository = "https://github.com/ZHUCH-520/podcast-trancript-public"
+Homepage = "https://github.com/ZHUCH-520/podcast-transcript-public"
+Repository = "https://github.com/ZHUCH-520/podcast-transcript-public"
 
 [project.scripts]
 podcast-transcript = "podcast_transcript.cli:main"
@@ -30,6 +30,6 @@ podcast-transcript = "podcast_transcript.cli:main"
 packages = ["podcast_transcript"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"podcast-trancript-public/scripts" = "podcast_transcript/bundled_scripts"
-"podcast-trancript-public/SKILL.md" = "podcast_transcript/skill_template/SKILL.md"
-"podcast-trancript-public/agents/openai.yaml" = "podcast_transcript/skill_template/agents/openai.yaml"
+"podcast-transcript-public/scripts" = "podcast_transcript/bundled_scripts"
+"podcast-transcript-public/SKILL.md" = "podcast_transcript/skill_template/SKILL.md"
+"podcast-transcript-public/agents/openai.yaml" = "podcast_transcript/skill_template/agents/openai.yaml"

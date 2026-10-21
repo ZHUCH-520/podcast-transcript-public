@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "podcast-trancript-public" / "scripts"
+SCRIPTS = ROOT / "podcast-transcript-public" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from doctor import MachineFacts, build_report, recommend_profile
@@ -22,7 +22,7 @@ class RuntimeDiscoveryTest(unittest.TestCase):
             environ={},
         )
         self.assertEqual(
-            Path("/private/example-home/Library/Caches/podcast-trancript-public"),
+            Path("/private/example-home/Library/Caches/podcast-transcript-public"),
             paths.root,
         )
 
@@ -33,7 +33,7 @@ class RuntimeDiscoveryTest(unittest.TestCase):
             environ={"LOCALAPPDATA": "C:/LocalData"},
         )
         self.assertEqual(
-            Path("C:/LocalData/podcast-trancript-public"),
+            Path("C:/LocalData/podcast-transcript-public"),
             paths.root,
         )
 
@@ -73,14 +73,14 @@ class RuntimeDiscoveryTest(unittest.TestCase):
     def test_linux_cache_uses_xdg_or_home_cache(self):
         home = Path("/var/example-home")
         paths = build_runtime_paths(system="Linux", home=home, environ={})
-        self.assertEqual(home / ".cache" / "podcast-trancript-public", paths.root)
+        self.assertEqual(home / ".cache" / "podcast-transcript-public", paths.root)
         override = build_runtime_paths(
             system="Linux",
             home=home,
             environ={"XDG_CACHE_HOME": "/var/xdg-cache"},
         )
         self.assertEqual(
-            Path("/var/xdg-cache/podcast-trancript-public"), override.root
+            Path("/var/xdg-cache/podcast-transcript-public"), override.root
         )
 
     def test_linux_meminfo_parser_and_reader(self):

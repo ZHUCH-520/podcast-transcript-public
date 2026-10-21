@@ -11,7 +11,7 @@ from urllib.request import Request
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "podcast-trancript-public" / "scripts"
+SCRIPTS = ROOT / "podcast-transcript-public" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(ROOT))
 
@@ -347,7 +347,7 @@ class RunCommandTest(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "outside the skill"):
             execute_run(
                 str(self.audio),
-                ROOT / "podcast-trancript-public" / "job",
+                ROOT / "podcast-transcript-public" / "job",
                 paths=self.paths,
                 facts=self.facts,
                 runner=self._runner([]),
@@ -379,7 +379,7 @@ class RunCommandTest(unittest.TestCase):
         pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
         self.assertIn('podcast-transcript = "podcast_transcript.cli:main"', pyproject)
         self.assertIn('requires-python = ">=3.9"', pyproject)
-        self.assertIn("podcast-trancript-public/scripts", pyproject)
+        self.assertIn("podcast-transcript-public/scripts", pyproject)
         self.assertTrue((scripts_dir() / "doctor.py").is_file())
         self.assertTrue((scripts_dir() / "diarize.py").is_file())
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
