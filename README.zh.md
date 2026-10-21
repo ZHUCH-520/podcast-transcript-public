@@ -1,8 +1,17 @@
-# podcast-trancript-public
+# podcast-transcript-public
 
 把播客音频、视频、单集链接或粗转录，整理成可以阅读和校对的全文。
 
 [英文说明](./README.md) · [中文介绍页](./docs/zh.html) · [English introduction](./docs/index.html)
+
+## 以前装过旧名字？
+
+skill 文件夹以前写成 `podcast-trancript-public`（transcript 少了一个 s）。现在的文件夹和 skill 名是 `podcast-transcript-public`。助手里的旧文件夹不会自动改名，留着就会继续用旧的那份。
+
+1. 删掉旧文件夹，例如 `~/.codex/skills/podcast-trancript-public`、`~/.claude/skills/podcast-trancript-public` 或 `~/.cursor/skills/podcast-trancript-public`。
+2. 用下面的安装句子再装一次，或者先 `pipx install`，再运行 `podcast-transcript install-skill --target <工具名>`。
+
+Whisper 模型缓存在旧拼写的目录里。把那个缓存目录改名为 `podcast-transcript-public`（在 `~/Library/Caches`、`%LOCALAPPDATA%` 或 `~/.cache` 下），就能接着用已下载的模型。不改的话，下次运行会重新下载。`PODCAST_TRANSCRIPT_CACHE` 仍然可以指定位置。
 
 ## 示例文稿
 
@@ -26,8 +35,46 @@
 
 ## 快速开始
 
+跟 AI 助手说两句话就行，不用先学命令。好读的精校稿来自助手这一步。命令行只出粗转录。
+
+### 跟助手说一句话
+
+把这句发给助手。地址要给到 skill 文件夹，不要只给仓库根目录。
+
+```text
+帮我安装这个 skill：https://github.com/ZHUCH-520/podcast-transcript-public/tree/main/podcast-transcript-public
+```
+
+Codex 会用自带的 skill-installer 装好，下一条消息就能用。Claude Code、Cursor 没有内置安装器，助手会用命令把文件夹复制到它的 skill 目录，执行前会问你；装好后如果没出现，新开一个会话。
+
+然后发一期节目：
+
+```text
+请用 podcast-transcript-public 帮我把这期播客整理成中文文字稿：<小宇宙 / Apple Podcasts 链接>
+```
+
+本地音频：
+
+```text
+请用 podcast-transcript-public 帮我处理这个音频文件，输出 Markdown 和 HTML：<文件路径>
+```
+
+已经有粗转录：
+
+```text
+请用 podcast-transcript-public 帮我校对这份粗转录：<粘贴文字或文件路径>
+```
+
+Codex 里也可以输入 `$` 选择 `podcast-transcript-public`。第一次处理音频前，会先告诉你要下载什么、多大、存在哪，你同意才开始。
+
+音频和转写留在本机。校对会把文字稿发给你正在用的 AI 助手，由那个模型处理。
+
+### 命令行
+
+需要 Python 3.9+ 和 FFmpeg。工具不会替你安装系统软件。命令行只出粗转录（几乎没有标点）和可选字幕，好读的精校稿要靠上面的 AI 助手那一步。
+
 ```bash
-pipx install "git+https://github.com/ZHUCH-520/podcast-trancript-public.git"
+pipx install "git+https://github.com/ZHUCH-520/podcast-transcript-public.git"
 podcast-transcript run episode.mp3 --output-dir ./episode --accept-download --language zh-en
 ```
 
@@ -70,24 +117,24 @@ podcast-transcript run "https://www.xiaoyuzhoufm.com/episode/示例id" --output-
 只查看单集页对应的音频地址、不下载文件：
 
 ```bash
-python podcast-trancript-public/scripts/resolve_media.py "https://www.xiaoyuzhoufm.com/episode/示例id"
+python podcast-transcript-public/scripts/resolve_media.py "https://www.xiaoyuzhoufm.com/episode/示例id"
 ```
 
 ## 模型
 
 | 模型 | 适合 | 代价 |
 |---|---|---|
-| `small` | 先试一集，或机器比较小 | 更快，人名和噪音可能要多改 |
-| `turbo` | 较新的 Apple Silicon，或有合适 GPU 的 Windows / Linux | 速度和准确度比较均衡 |
-| `large-v3` | 人名多、口音重、录音不稳 | 下载最大，占用更高 |
+| `small` | 先试一集，或机器比较小 | 约 480 MB。更快，人名和噪音可能要多改 |
+| `turbo` | 较新的 Apple Silicon，或有合适 GPU 的 Windows / Linux | Apple Silicon 约 3.2 GB，Windows / Linux 约 1.6 GB |
+| `large-v3` | 人名多、口音重、录音不稳 | 约 3.2 GB，占用更高 |
 
 Apple Silicon 使用 MLX Whisper。Intel Mac、Windows 和 Linux 使用 faster-whisper。Windows 和 Linux 在检测到 CUDA 时使用 float16，否则使用 CPU 和 int8。`large-v3` 不会被自动选中。已有粗转录时可以跳过模型下载，直接校对文本。
 
 ## 安装到中文编程助手
 
-这是一份标准 `SKILL.md` skill：一个名为 `podcast-trancript-public` 的文件夹，里面是 `SKILL.md` 和 `scripts/`。能读取这种格式的助手和技能库应当可以使用它。下面列出的是已经核对过安装位置或安装方式的宿主，不是在每个产品里做过实机验收：
+这是一份标准 `SKILL.md` skill：一个名为 `podcast-transcript-public` 的文件夹，里面是 `SKILL.md` 和 `scripts/`。能读取这种格式的助手和技能库应当可以使用它。下面列出的是已经核对过安装位置或安装方式的宿主，不是在每个产品里做过实机验收：
 
-- Codex：用英文说明里的 `$skill-installer`
+- Codex：用上面的安装句子。Codex 自带 skill-installer，下一条消息就能用
 - Claude Code、Cursor、Qoder、通义灵码、CodeBuddy、TRAE、Qwen Code、Kimi Code：使用下面的目录
 - WorkBuddy：上传技能包。用 `podcast-transcript install-skill --target workbuddy --dest ./workbuddy-skill` 准备文件夹。官方页面没有写出磁盘目录，所以不会猜一个主目录路径
 
@@ -119,7 +166,7 @@ podcast-transcript install-skill --target trae-cn --scope project
 - **CatPaw**：公开文档里没有核对到 `SKILL.md` 目录。旁路资料提到的 `.catpaw/rules` 是规则文件，不是这个 skill 文件夹。
 - **WorkBuddy**：官方说明是上传技能包，但没有写出目录名。可以用 `--target workbuddy --dest ./workbuddy-skill` 准备一个文件夹再手动上传。第三方主目录路径不会被使用。
 
-Codex 仍用仓库英文说明里的 `$skill-installer`。Claude Code 和 Cursor 的目录也在 `install-skill --list` 里。
+Codex 仍用快速开始里的安装句子。Claude Code 和 Cursor 没有内置安装器，助手会在确认后复制文件夹；这两个目录也在 `install-skill --list` 里。说话人分离要在 Hugging Face 同意 pyannote 模型条款，并设置 `HF_TOKEN`（或 `HUGGING_FACE_HUB_TOKEN`）。
 
 ## 它不会做的事
 

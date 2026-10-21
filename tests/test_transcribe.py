@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "podcast-trancript-public" / "scripts"
+SCRIPTS = ROOT / "podcast-transcript-public" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from transcribe import load_glossary, resolve_language, stabilize_segments, transcribe_audio

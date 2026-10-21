@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "podcast-trancript-public"
+SKILL = ROOT / "podcast-transcript-public"
 PAGES = (ROOT / "docs" / "index.html", ROOT / "docs" / "zh.html")
 RUNTIME_SCRIPTS = {
     "doctor.py",
@@ -14,8 +14,8 @@ RUNTIME_SCRIPTS = {
     "split_transcript.py",
     "diarize.py",
 }
-REPOSITORY_URL = "https://github.com/ZHUCH-520/podcast-trancript-public"
-SKILL_URL = REPOSITORY_URL + "/tree/main/podcast-trancript-public"
+REPOSITORY_URL = "https://github.com/ZHUCH-520/podcast-transcript-public"
+SKILL_URL = REPOSITORY_URL + "/tree/main/podcast-transcript-public"
 
 
 class LinkAudit(HTMLParser):
@@ -87,6 +87,12 @@ class PublicLayoutTest(unittest.TestCase):
         self.assertIn('<html lang="zh-CN">', chinese)
         self.assertIn('href="./zh.html"', english)
         self.assertIn('href="./index.html"', chinese)
+        for page in (english, chinese):
+            self.assertIn('hreflang="zh-Hans"', page)
+            self.assertIn('hreflang="en"', page)
+            self.assertIn('hreflang="x-default"', page)
+        self.assertIn('aria-current="page">EN</a>', english)
+        self.assertIn('aria-current="page">中文</a>', chinese)
 
     def test_readme_is_english_and_links_both_introductions(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -97,17 +103,22 @@ class PublicLayoutTest(unittest.TestCase):
         self.assertIn("[English introduction](./docs/index.html)", readme)
         self.assertIn("[中文介绍](./docs/zh.html)", readme)
         self.assertIn(
-            "Use $skill-installer to install this skill: "
-            "https://github.com/ZHUCH-520/podcast-trancript-public/"
-            "tree/main/podcast-trancript-public",
+            "Install this skill for me: "
+            "https://github.com/ZHUCH-520/podcast-transcript-public/"
+            "tree/main/podcast-transcript-public",
             readme,
+        )
+        self.assertIn("Ask your assistant", readme)
+        self.assertLess(
+            readme.index("### Ask your assistant"),
+            readme.index("### Command line"),
         )
 
     def test_skill_frontmatter_uses_public_name(self):
         skill_file = SKILL / "SKILL.md"
         self.assertTrue(skill_file.is_file(), str(skill_file))
         text = skill_file.read_text(encoding="utf-8")
-        self.assertIn("name: podcast-trancript-public", text)
+        self.assertIn("name: podcast-transcript-public", text)
 
     def test_runtime_scripts_ship_inside_the_skill(self):
         scripts = SKILL / "scripts"
@@ -151,15 +162,22 @@ class PublicLayoutTest(unittest.TestCase):
             self.assertNotIn("<GitHub 仓库地址>", text)
 
     def test_page_repository_links_work_from_github_pages(self):
-        for page_path in PAGES:
-            page = page_path.read_text(encoding="utf-8")
-            with self.subTest(page=page_path.name):
-                self.assertIn(f'href="{SKILL_URL}"', page)
-                self.assertIn(f'href="{REPOSITORY_URL}#readme"', page)
-                self.assertNotIn(
-                    'href="../podcast-trancript-public/SKILL.md"', page
-                )
-                self.assertNotIn('href="../README.md"', page)
+        english = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        chinese = (ROOT / "docs" / "zh.html").read_text(encoding="utf-8")
+        for page in (english, chinese):
+            self.assertIn(f'href="{SKILL_URL}"', page)
+            self.assertIn(f'href="{REPOSITORY_URL}"', page)
+            self.assertNotIn(
+                'href="../podcast-transcript-public/SKILL.md"', page
+            )
+            self.assertNotIn('href="../README.md"', page)
+            self.assertNotIn('href="../README.zh.md"', page)
+            self.assertNotIn("podcast-trancript-public", page)
+        self.assertIn(f'href="{REPOSITORY_URL}#readme"', english)
+        self.assertIn(
+            f'href="{REPOSITORY_URL}/blob/main/README.zh.md"',
+            chinese,
+        )
 
     def test_skill_requires_plan_and_approval_before_install(self):
         text = (SKILL / "SKILL.md").read_text(encoding="utf-8")

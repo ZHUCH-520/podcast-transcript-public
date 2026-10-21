@@ -1,9 +1,9 @@
 ---
-name: podcast-trancript-public
+name: podcast-transcript-public
 description: Turn podcast audio, video, URLs, or rough transcripts into complete, readable Markdown and standalone HTML. Use when the user asks to transcribe, proofread, translate, or clean up a podcast or long-form conversation, including Chinese or Chinese-English shows and public episode pages.
 ---
 
-# podcast-trancript-public
+# podcast-transcript-public
 
 Turn a long-form conversation into a transcript people can actually read—without turning the conversation into a summary.
 
@@ -14,7 +14,7 @@ This skill is local-first. It preserves the source material, verifies important 
 
 It includes scripts for checking the computer, preparing a local Whisper runtime after approval, transcribing without a cloud service, and splitting long transcripts without losing text. It does not bundle model files, downloaders, or cloud credits. It does not upload or publish anything unless the user separately asks for that action.
 
-The same folder can be copied into Claude Code (`~/.claude/skills/podcast-trancript-public/` or `.claude/skills/podcast-trancript-public/`) or Cursor (`~/.cursor/skills/podcast-trancript-public/`, `.cursor/skills/podcast-trancript-public/`, or `.agents/skills/podcast-trancript-public/`). `podcast-transcript install-skill --target <tool>` copies this folder, without rewriting `SKILL.md`, into skill directories verified for Qoder, Qoder CN CLI, Tongyi Lingma, CodeBuddy, TRAE, TRAE CN, Qwen Code, and Kimi Code CLI. Keep the folder name. A standalone `podcast-transcript run` command can write an unproofread `transcript.md` before this workflow starts. Do not treat that file as the proofread deliverable; keep following the steps below, and do not overwrite it unless the user explicitly asks.
+The same folder can be copied into Claude Code (`~/.claude/skills/podcast-transcript-public/` or `.claude/skills/podcast-transcript-public/`) or Cursor (`~/.cursor/skills/podcast-transcript-public/`, `.cursor/skills/podcast-transcript-public/`, or `.agents/skills/podcast-transcript-public/`). `podcast-transcript install-skill --target <tool>` copies this folder, without rewriting `SKILL.md`, into skill directories verified for Qoder, Qoder CN CLI, Tongyi Lingma, CodeBuddy, TRAE, TRAE CN, Qwen Code, and Kimi Code CLI. Keep the folder name. A standalone `podcast-transcript run` command can write an unproofread `transcript.md` before this workflow starts. Do not treat that file as the proofread deliverable; keep following the steps below, and do not overwrite it unless the user explicitly asks.
 
 ## What this skill does
 
@@ -23,7 +23,7 @@ Use this workflow for:
 - a public podcast or long-form media URL;
 - a local audio or video file;
 - an existing rough transcript;
-- a partially completed podcast-trancript-public job that the user explicitly asks to resume.
+- a partially completed podcast-transcript-public job that the user explicitly asks to resume.
 
 The workflow covers acquisition when needed, speech-to-text, entity verification, chunked proofreading, optional bilingual formatting, completeness checks, and local Markdown/HTML rendering.
 

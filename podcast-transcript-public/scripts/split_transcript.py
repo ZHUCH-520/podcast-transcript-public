@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Optional
 
 
-APP_NAME = "podcast-trancript-public"
+APP_NAME = "podcast-transcript-public"
 PARAGRAPH_OR_SPEAKER = re.compile(
     r"\n{2,}|\n(?=(?:Speaker|说话人)\s*[^:\n：]{0,32}[:：])",
     re.IGNORECASE,

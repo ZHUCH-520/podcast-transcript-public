@@ -9,7 +9,7 @@ from urllib.request import Request
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "podcast-trancript-public" / "scripts"))
+sys.path.insert(0, str(ROOT / "podcast-transcript-public" / "scripts"))
 sys.path.insert(0, str(ROOT))
 
 from podcast_transcript.media import fetch_media

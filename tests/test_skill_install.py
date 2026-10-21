@@ -20,12 +20,12 @@ class SkillInstallTest(unittest.TestCase):
             root = Path(tmp)
             destination = install_skill("qoder", scope="user", dest=root)
             skill = (destination / "SKILL.md").read_text(encoding="utf-8")
-            self.assertIn("name: podcast-trancript-public", skill)
+            self.assertIn("name: podcast-transcript-public", skill)
             self.assertTrue((destination / "scripts" / "transcribe.py").is_file())
             self.assertTrue((destination / "scripts" / "resolve_media.py").is_file())
             with self.assertRaises(FileExistsError):
                 install_skill("qoder", scope="user", dest=root)
-            self.assertIn("name: podcast-trancript-public", skill)
+            self.assertIn("name: podcast-transcript-public", skill)
 
     def test_user_and_project_directories_match_the_verified_layout(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -37,7 +37,7 @@ class SkillInstallTest(unittest.TestCase):
                     root
                     / ".trae-cn"
                     / "skills"
-                    / "podcast-trancript-public"
+                    / "podcast-transcript-public"
                     / "SKILL.md"
                 ).is_file()
             )
@@ -46,7 +46,7 @@ class SkillInstallTest(unittest.TestCase):
                     root
                     / ".qwen"
                     / "skills"
-                    / "podcast-trancript-public"
+                    / "podcast-transcript-public"
                     / "scripts"
                     / "doctor.py"
                 ).is_file()
@@ -75,7 +75,7 @@ class SkillInstallTest(unittest.TestCase):
                 install_skill("qoder-cn", scope="user", home=root)
             install_skill("qoder-cn", scope="project", project=root)
             self.assertTrue(
-                (root / ".qoder" / "skills" / "podcast-trancript-public" / "SKILL.md").is_file()
+                (root / ".qoder" / "skills" / "podcast-transcript-public" / "SKILL.md").is_file()
             )
             self.assertFalse((root / ".qoder-cn").exists())
 
@@ -102,7 +102,7 @@ class SkillInstallTest(unittest.TestCase):
                     ]
                 )
             self.assertEqual(0, installed)
-            self.assertTrue((root / "podcast-trancript-public" / "SKILL.md").is_file())
+            self.assertTrue((root / "podcast-transcript-public" / "SKILL.md").is_file())
 
 
 if __name__ == "__main__":

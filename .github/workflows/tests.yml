@@ -27,7 +27,7 @@ jobs:
           python - <<'PY'
           import sys
           from pathlib import Path
-          sys.path.insert(0, "podcast-trancript-public/scripts")
+          sys.path.insert(0, "podcast-transcript-public/scripts")
           from model_catalog import package_requirements
           requirements = package_requirements("faster")
           if "av>=11,<19" not in requirements:

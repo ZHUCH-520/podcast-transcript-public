@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Optional
 
 
-SKILL_NAME = "podcast-trancript-public"
+SKILL_NAME = "podcast-transcript-public"
 
 
 @dataclass(frozen=True)

@@ -150,7 +150,7 @@ def _resolver():
 
 
 def _scripts_dir() -> Path:
-    source = Path(__file__).resolve().parents[1] / "podcast-trancript-public" / "scripts"
+    source = Path(__file__).resolve().parents[1] / "podcast-transcript-public" / "scripts"
     if (source / "resolve_media.py").is_file():
         return source
     bundled = Path(__file__).resolve().parent / "bundled_scripts"
